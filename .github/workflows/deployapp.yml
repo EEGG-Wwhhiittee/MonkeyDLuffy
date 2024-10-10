@@ -2,7 +2,8 @@ name: Deploy Web App to Docker Hub
 on:
   workflow_run:
     workflows: [BuildApp, ReleaseApp]
-    types: [completed]
+    types:
+        - completed
 jobs:
     build-push-container:
         name: build docker container

@@ -2,7 +2,8 @@ name: ReleaseApp
 on:
   workflow_run:
     workflows: [BuildApp]
-    types: [completed]
+    types:
+        - completed
 jobs:
     Release-Project:
         name: Release project
