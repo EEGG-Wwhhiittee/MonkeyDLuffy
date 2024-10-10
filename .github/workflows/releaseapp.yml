@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: [BuildApp]
     types: [completed]
-job:
+jobs:
     Release-Project:
         name: Release project
         runs-on: ubuntu-latest
