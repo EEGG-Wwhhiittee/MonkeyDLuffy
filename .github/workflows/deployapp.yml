@@ -21,4 +21,4 @@ jobs:
               with:
                 context: .
                 push: true
-                tags: charith789/octtenthwebapp:latest
+                tags: charith789/oct_10_2024_webapp:latest
