@@ -16,11 +16,11 @@ jobs:
             - name: List Contents of the directory  
               run: ls -la
             - name: change directory
-              run: cd /home/runner/work/JSGA_Repo/JSGA_Repo/out
+              run: cd /home/runner/work/MonkeyDLuffy/MonkeyDLuffy/out
             - name: fetch contents of "out" folder  
               run: ls -la  
             - name: Upload Static Site Content
               uses: actions/upload-artifact@v4
               with:
                 name: static-site
-                path: /home/runner/work/JSGA_Repo/JSGA_Repo/out
+                path: /home/runner/work/MonkeyDLuffy/MonkeyDLuffy/out
