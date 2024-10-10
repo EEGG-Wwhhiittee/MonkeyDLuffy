@@ -70,8 +70,8 @@ jobs:
       - name: Download Release Asset
         uses: robinraju/release-downloader@v1
         with:
-          latest: true
-          fileName: 'site-v${{ github.run_number }}.zip'
+          repo: 'EEGG-Wwhhiittee/MonkeyDLuffy'
+          asset_id: ${{ steps.create_new_release.outputs.asset_id }}
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
