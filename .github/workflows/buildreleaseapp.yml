@@ -71,6 +71,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: 'EEGG-Wwhhiittee/MonkeyDLuffy'
+          tag: ${{ github.run_number}}
           filename: site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
