@@ -70,7 +70,7 @@ jobs:
       - name: Download Release Asset
         uses: robinraju/release-downloader@v1
         with:
-          repo: 'EEGG-Wwhhiittee/MonkeyDLuffy'
+          repository: 'EEGG-Wwhhiittee/MonkeyDLuffy'
           filename: site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
