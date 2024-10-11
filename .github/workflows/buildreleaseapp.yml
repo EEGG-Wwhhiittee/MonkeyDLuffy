@@ -5,6 +5,10 @@ jobs:
     name: Build Project
     runs-on: ubuntu-latest
     steps:
+      - name: Enable Debug Logging
+        run: |
+          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: install NPM Dependencies
@@ -31,6 +35,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Enable Debug Logging
+        run: |
+          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: Download Site Content
         uses: actions/download-artifact@v4
         with:
@@ -65,6 +73,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Enable Debug Logging
+        run: |
+          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Download Release Asset
