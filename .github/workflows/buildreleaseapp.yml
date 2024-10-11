@@ -86,7 +86,7 @@ jobs:
           tag: ${{ github.run_number}}
           filename: site-v${{ github.run_number }}.zip
       - name: pwd and contents of the directory
-        run: pwd && ls -R && ls -la && ls -lrt && ll 
+        run: pwd && ls -R
       - name: unzip publish folder
         run: unzip site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
