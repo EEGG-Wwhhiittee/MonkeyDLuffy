@@ -87,8 +87,10 @@ jobs:
           filename: site-v${{ github.run_number }}.zip
       - name: pwd and contents of the directory
         run: pwd && ls -R && ls -la && ls -lrt    
+      - name: mkdir && unzip the publish folder
+        run: mkdir publish_folder && mv site-v${{ github.run_number }}.zip publish_folder && cd publish_folder && unzip site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site-v${{ github.run_number }}.zip
+          publish_dir: ./publish_folder
