@@ -89,4 +89,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_next
+          publish_dir: ./site-v${{ github.run_number }}.zip
