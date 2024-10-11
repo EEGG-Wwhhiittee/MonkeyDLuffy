@@ -85,6 +85,8 @@ jobs:
           repository: 'EEGG-Wwhhiittee/MonkeyDLuffy'
           tag: ${{ github.run_number}}
           filename: site-v${{ github.run_number }}.zip
+      - name: pwd and contents of the directory
+        run: pwd && ls -R && ls -la && ls -lrt    
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
