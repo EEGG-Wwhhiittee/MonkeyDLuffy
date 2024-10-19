@@ -1,4 +1,4 @@
-name: buildapp
+name: BuildApp
 on: push
 jobs:
   build-project:
@@ -11,26 +11,25 @@ jobs:
           echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Install NPM Dependencies
+      - name: install NPM Dependencies
         run: npm install
       - name: Build Project Assets
         run: npm run build
       - name: Fetch Directory path
         run: pwd
-      - name: List Contents of the Directory
+      - name: List Contents of the directory
         run: ls -la
-      - name: Change Directory
+      - name: change directory
         run: cd /home/runner/work/MonkeyDLuffy/MonkeyDLuffy/out
-      - name: Fetch Contents of "out" Folder
+      - name: fetch contents of "out" folder
         run: ls -la
       - name: Upload Static Site Content
         uses: actions/upload-artifact@v4
         with:
           name: static-site
           path: /home/runner/work/MonkeyDLuffy/MonkeyDLuffy/out
-
-  release-project:
-    name: Release Project
+  Release-Project:
+    name: Release project
     runs-on: ubuntu-latest
     needs: build-project
     permissions:
@@ -44,9 +43,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: static-site
-      - name: View Contents of Static-Site
+      - name: view contents of static-site
         run: ls -R
-      - name: Archive (zip) the Contents of the Built Artifact
+      - name: Archive(zip) the contents of the built artifact
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: "zip"
@@ -57,9 +56,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
-      - name: Upload Release Asset
+          tag_name: ${{ github.run_number}}
+          release_name: Release ${{ github.run_number}}
+      - name: upload release asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,17 +67,31 @@ jobs:
           asset_path: ./static.zip
           asset_name: site-v${{ github.run_number }}.zip
           asset_content_type: application/zip
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  deploy-to-gh-pages:
     runs-on: ubuntu-latest
-    needs: release-project
-    permissions: write
+    needs: Release-Project
+    permissions:
+      contents: write
     steps:
-      - name: Checkout Code
+      - name: Enable Debug Logging
+        run: |
+          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
+      - name: Checkout code
         uses: actions/checkout@v4
+      - name: Download Release Asset
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: 'EEGG-Wwhhiittee/MonkeyDLuffy'
+          tag: ${{ github.run_number}}
+          filename: site-v${{ github.run_number }}.zip
+      - name: pwd and contents of the directory
+        run: pwd && ls -R
+      - name: unzip publish folder
+        run: unzip site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site-v${{ github.run_number }}
+          publish_branch: gh-pages 
