@@ -1,4 +1,4 @@
-name: BuildApp
+name: buildapp
 on: push
 jobs:
   build-project:
