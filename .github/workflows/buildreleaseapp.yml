@@ -1,4 +1,4 @@
-name: Build App
+name: BuildApp
 on: push
 jobs:
   build-project:
@@ -80,6 +80,5 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Deploy to GitHub Pages
-        id: deployment
-        id: Release ${{ github.run_number}}
+        id: deployments
         uses: actions/deploy-pages@v4
