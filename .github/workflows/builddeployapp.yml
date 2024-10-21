@@ -1,0 +1,19 @@
+name: Build & Deploy App
+on: push
+jobs:
+  Build-Project:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable Debug Logging
+        run: |
+          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: install NPM Dependencies
+        run: npm install
+      - name: Build Project Assets
+        run: npm run build
+      - name: Fetch Directory path
+        run: pwd
