@@ -1,9 +1,15 @@
-name: BuildApp
-on: push
+name: Build-Release-Deploy-App
+on: 
+  push:
+    branches:
+      - main
 jobs:
-  build-project:
-    name: Build Project
+  Build-Release-Deploy-project:
+    name: Build-Release-Deploy Project
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      contents: write
     steps:
       - name: Enable Debug Logging
         run: |
@@ -28,23 +34,10 @@ jobs:
         with:
           name: static-site
           path: /home/runner/work/MonkeyDLuffy/MonkeyDLuffy/out
-  Release-Project:
-    name: Release project
-    runs-on: ubuntu-latest
-    needs: build-project
-    permissions:
-      contents: write
-    steps:
-      - name: Enable Debug Logging
-        run: |
-          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
-          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: Download Site Content
         uses: actions/download-artifact@v4
         with:
           name: static-site
-      - name: view contents of static-site
-        run: ls -R
       - name: Archive(zip) the contents of the built artifact
         uses: thedoctor0/zip-release@0.7.5
         with:
@@ -67,22 +60,14 @@ jobs:
           asset_path: ./static.zip
           asset_name: site-v${{ github.run_number }}.zip
           asset_content_type: application/zip
-  Deploy-Project:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: Release-Project
-    permissions: 
-      id-token: write
-      contents: write
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Download Artifact for Deployment
-        uses: actions/download-artifact@v4
+      - name: Download Release Asset
+        uses: robinraju/release-downloader@v1
         with:
-          name: static-site  
+          repository: 'EEGG-Wwhhiittee/MonkeyDLuffy'
+          tag: ${{ github.run_number }}
+          filename: site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
-        id: deployments
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site-v${{ github.run_number }}
