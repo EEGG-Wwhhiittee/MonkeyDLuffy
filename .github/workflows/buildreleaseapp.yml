@@ -21,6 +21,8 @@ jobs:
         run: npm install
       - name: Build Project Assets
         run: npm run build
+      - name: Run Scripts in package json
+        run: npm run deploy  
       - name: Fetch Directory path
         run: pwd
       - name: List Contents of the directory
