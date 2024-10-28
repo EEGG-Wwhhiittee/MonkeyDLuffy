@@ -17,12 +17,17 @@ jobs:
           echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: Checkout Code
         uses: actions/checkout@v4
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+           ${{ runner.os }}-node-
       - name: install NPM Dependencies
         run: npm install
       - name: Build Project Assets
         run: npm run build
-      - name: Run Scripts in package json
-        run: npm run dev
       - name: Fetch Directory path
         run: pwd
       - name: List Contents of the directory
@@ -73,3 +78,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
+          cname: eegg-wwhhiittee.github.io
+      - name: Add .nojekyll and 404.html for Routing
+        run: |
+         touch ./out/.nojekyll
+         cp ./out/index.html ./out/404.html
