@@ -28,14 +28,14 @@ jobs:
         run: npm install
       - name: Build Project Assets
         run: npm run build
-      - name: Fetch Directory path
-        run: pwd
-      - name: List Contents of the directory
-        run: ls -la
-      - name: change directory
-        run: cd /home/runner/work/MonkeyDLuffy/MonkeyDLuffy/out
-      - name: fetch contents of "out" folder
-        run: ls -la
+      - name: Verify Directory Structure
+        run: |
+         pwd
+         ls -la
+         ls -la ./out
+      - name: Prepare GitHub Pages Files (no Jekyll, 404.html for routing)
+        run: |
+         echo '<script>location.href = "/" + location.pathname + location.search + location.hash;</script>' > ./out/404.html 
       - name: Upload Static Site Content
         uses: actions/upload-artifact@v4
         with:
@@ -70,7 +70,7 @@ jobs:
       - name: Download Release Asset
         uses: robinraju/release-downloader@v1
         with:
-          repository: 'EEGG-Wwhhiittee/MonkeyDLuffy'
+          repository: '${{ github.repository }}'
           tag: ${{ github.run_number }}
           filename: site-v${{ github.run_number }}.zip
       - name: Deploy to GitHub Pages
@@ -79,7 +79,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
           cname: eegg-wwhhiittee.github.io
-      - name: Add .nojekyll and 404.html for Routing
-        run: |
-         touch ./out/.nojekyll
-         cp ./out/index.html ./out/404.html
