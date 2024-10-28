@@ -37,6 +37,7 @@ jobs:
         run: |
          touch ./out/.nojekyll
          rm -rf ./out/404.html
+         echo '<script>location.href = "/" + location.pathname + location.search + location.hash;</script>' > ./out/404.html
          cp ./out/index.html ./out/404.html
       - name: Upload Static Site Content
         uses: actions/upload-artifact@v4
